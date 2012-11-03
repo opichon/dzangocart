@@ -1,0 +1,13 @@
+**********************************************************************
+* Id: CHANGE_LOG.txt
+* Subject: pcrypt 0.0.3 (stable)
+* Author: Tim Gall (Oz-DevWorX)
+* Date: 2009-02-02 13:53 (+10 GMT)
+*
+* Simple-Description: 2 way encryption class for PHP - (change log)
+* Copyright (C) 2009 Tim Gall (Oz-DevWorX)
+* pcrypt is Released under the GNU General Public License
+* ********************************************************************
+
+Initial public release. 
+The software is stable and has been in heavy production use since 2007-06-07.
