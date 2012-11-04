@@ -1,6 +1,7 @@
 <?php
+namespace Dzangocart;
 
-class DzangocartPPExpressTransaction extends DzangocartTransaction
+class DzangocartPPExpressTransaction.class extends Transaction
 {
   public function getDate()
   {

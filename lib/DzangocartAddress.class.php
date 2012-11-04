@@ -1,5 +1,7 @@
 <?php
-class DzangocartAddress extends DzangocartObject
+namespace Dzangocart;
+
+class DzangocartAddress.class extends Object
 {
     public function getLine1()
     {

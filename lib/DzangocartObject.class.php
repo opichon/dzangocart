@@ -1,5 +1,7 @@
 <?php
-class DzangocartObject
+namespace Dzangocart;
+
+class DzangocartObject.class
 {
   protected $data;
 

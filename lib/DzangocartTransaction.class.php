@@ -1,6 +1,7 @@
 <?php
+namespace Dzangocart;
 
-class DzangocartTransaction extends DzangocartObject
+class DzangocartTransaction.class extends Object
 {
   const CSS_CLASS = 'transaction';
 

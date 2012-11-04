@@ -1,4 +1,6 @@
 <?php
+namespace Dzangocart;
+
 class Dzangocart
 {
   public static $api_url = '';

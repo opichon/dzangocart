@@ -1,5 +1,7 @@
 <?php
-class DzangocartPurchase extends DzangocartObject
+namespace Dzangocart;
+
+class DzangocartPurchase.class extends Object
 {
   const CSS_CLASS = 'purchase';
   const CSS_CLASS_CANCELLED = 'cancelled';

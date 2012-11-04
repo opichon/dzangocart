@@ -1,6 +1,7 @@
 <?php
+namespace Dzangocart;
 
-class DzangocartSipsTransaction extends DzangocartTransaction
+class DzangocartSipsTransaction.class extends Transaction
 {
   public function getDate()
   {

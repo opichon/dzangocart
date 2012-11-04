@@ -1,5 +1,7 @@
 <?php
-class DzangocartCustomer extends DzangocartObject
+namespace Dzangocart;
+
+class DzangocartCustomer.class extends Object
 {
   protected $billing_address;
     protected $shipping_address;
