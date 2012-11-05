@@ -5,7 +5,8 @@
 	"keywords": ["dzangocart"],
 	"license": "MIT",
 	"require": {
-		"guzzle/guzzle": "3.0.x"
+		"guzzle/guzzle": "3.0.x",
+		"pimple/pimple": "1.0.x-dev"
 	},
 	"autoload": {
 		"psr-0": {
