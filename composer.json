@@ -4,6 +4,9 @@
 	"type": "library",
 	"keywords": ["dzangocart"],
 	"license": "MIT",
+	"require": {
+		"guzzle/guzzle": "3.0.x"
+	},
 	"autoload": {
 		"psr-0": {
 			"Dzangocart": "lib/"
