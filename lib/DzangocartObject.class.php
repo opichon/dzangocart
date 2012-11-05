@@ -1,21 +1,24 @@
 <?php
 namespace Dzangocart;
 
-class DzangocartObject.class
+class Object
 {
-  protected $data;
+	protected $data;
 
-  public function __construct(array $data)
-  {
-    $this->data = $data;
-  }
+	public function __construct(array $data)
+	{
+		$this->data = $data;
+	}
 
-  public function __get($name)
-  {
-    if (array_key_exists($name, $this->data)) {
-      return $this->data[$name];
-    }
-  }
+	public function __get($name)
+	{
+		if (array_key_exists($name, $this->data)) {
+			return $this->data[$name];
+		}
+	}
 
-  public function getData() { return $this->data; }
+	public function getData()
+	{
+		return $this->data;
+	}
 }

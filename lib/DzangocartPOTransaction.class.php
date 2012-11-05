@@ -1,10 +1,10 @@
 <?php
 namespace Dzangocart;
 
-class DzangocartPOTransaction.class extends Transaction
+class POTransaction extends Transaction
 {
-  public function getDate()
-  {
-    return new DateTime($this->data['date']);
-  }
+ 	public function getDate()
+ 	{
+    	return new DateTime($this->data['date']);
+    }
 }

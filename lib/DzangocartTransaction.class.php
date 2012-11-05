@@ -1,31 +1,24 @@
 <?php
 namespace Dzangocart;
 
-class DzangocartTransaction.class extends Object
+class Transaction extends Object
 {
-  const CSS_CLASS = 'transaction';
+	const CSS_CLASS = 'transaction';
 
-  public function isTest()
-  {
-    return $this->data['test'];
-  }
+	public function isTest()
+	{
+		return $this->data['test'];
+	}
 
-  public function getCssClass()
-  {
-    $css = array(static::CSS_CLASS);
+	public function getCssClass()
+	{
+		$css = array(static::CSS_CLASS);
 
-    return implode(' ', $css);
-  }
+		return implode(' ', $css);
+	}
 
-  public function getActionsPartial()
-  {
-    return 'dzangocart/transaction_actions';
-  }
-
-  public function getBatchActionPartial()
-  {
-    return 'dzangocart/transaction_batch_action';
-  }
-
-  public function getDateFormat() { return 'd/m/Y H:i'; }
+	public function getDateFormat()
+	{
+		return 'd/m/Y H:i';
+	}
 }

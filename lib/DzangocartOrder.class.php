@@ -1,192 +1,209 @@
 <?php
 namespace Dzangocart;
 
-class DzangocartOrder.class extends Object
+class Order extends Object
 {
-  const CSS_CLASS = 'order';
-  const CSS_CLASS_CANCELLED = 'cancelled';
-  const CSS_CLASS_CANCELLATION = 'cancellation';
-  const CSS_CLASS_CREDIT = 'credit';
-  const CSS_CLASS_UNPAID = 'unpaid';
-  const CSS_CLASS_PAID = 'paid';
 
-  protected $customer;
-  protected $items;
+	const CSS_CLASS = 'order';
+	const CSS_CLASS_CANCELLED = 'cancelled';
+	const CSS_CLASS_CANCELLATION = 'cancellation';
+	const CSS_CLASS_CREDIT = 'credit';
+	const CSS_CLASS_UNPAID = 'unpaid';
+	const CSS_CLASS_PAID = 'paid';
 
-  public static function getOrder($order_id)
-  {
-    $order_class = static::getOrderClass();
+	protected $customer;
+	protected $items;
 
-    return new $order_class(Dzangocart::getOrder($order_id));
-  }
+	public static function getOrder($order_id)
+	{
+		$order_class = static::getOrderClass();
 
-  public static function getOrderClass()
-  {
-    return sfConfig::get('app_dzangocart_order_class', 'DzangocartOrder');
-  }
+		return new $order_class(Dzangocart::getOrder($order_id));
+	}
 
-  public function isTest()
-  {
-    return $this->data['test'];
-  }
+	public static function getOrderClass()
+	{
+		return sfConfig::get(
+			'app_dzangocart_order_class',
+			'Dzangocart\Order'
+		);
+	}
 
-  public function isCancelled()
-  {
-    return $this->data['cancelled'];
-  }
+	public function isTest()
+	{
+		return $this->data['test'];
+	}
 
-  public function isCancellation()
-  {
-      return $this->data['cancellation'];
-  }
+	public function isCancelled()
+	{
+		return $this->data['cancelled'];
+	}
 
-  public function isCredit()
-  {
-      return $this->data['credit'];
-  }
+	public function isCancellation()
+	{
+		return $this->data['cancellation'];
+	}
 
-  public function getCssClass()
-  {
-    $css = array(static::CSS_CLASS);
-    if ($this->isCancelled()) {
-      $css[] = static::CSS_CLASS_CANCELLED;
-    }
+	public function isCredit()
+	{
+		return $this->data['credit'];
+	}
 
-    if ($this->isCredit()) {
-        $css[] = static::CSS_CLASS_CREDIT;
-    }
+	public function getCssClass()
+	{
+		$css = array(static::CSS_CLASS);
+		if ($this->isCancelled()) {
+			$css[] = static::CSS_CLASS_CANCELLED;
+		}
 
-    if ($this->isCancellation()) {
-        $css[] = static::CSS_CLASS_CANCELLATION;
-    }
+		if ($this->isCredit()) {
+			$css[] = static::CSS_CLASS_CREDIT;
+		}
 
-    $css[] = $this->paid ? static::CSS_CLASS_PAID : static::CSS_CLASS_UNPAID;
+		if ($this->isCancellation()) {
+			$css[] = static::CSS_CLASS_CANCELLATION;
+		}
 
-    return implode(' ', $css);
-  }
+		$css[] = $this->paid ? static::CSS_CLASS_PAID : static::CSS_CLASS_UNPAID;
 
-  public function getDateFormat() { return 'd/m/Y H:i'; }
+		return implode(' ', $css);
+	}
 
-  public function getDate()
-  {
-    return new DateTime($this->data['date']);
-  }
+	public function getDateFormat()
+	{
+		return 'd/m/Y H:i';
+	}
 
-  public function getDatePaid($format = 'd/m/Y')
-  {
-      return new DateTime($this->data['paid_at']);
-  }
+	public function getDate()
+	{
+		return new DateTime($this->data['date']);
+	}
 
-  public function getCustomerName()
-  {
-    return sprintf('%s, %s', $this->data['customer']['surname'], $this->data['customer']['given_names']);
-  }
+	public function getDatePaid($format = 'd/m/Y')
+	{
+		return new DateTime($this->data['paid_at']);
+	}
 
-  public function getCustomerCode()
-  {
-    return $this->data['customer']['code'];
-  }
+	public function getCustomerName()
+	{
+		return sprintf(
+			'%s, %s',
+			$this->data['customer']['surname'],
+			$this->data['customer']['given_names'])
+		;
+	}
 
-  public function getCustomerReferralCode()
-  {
-    return $this->data['customer']['referral_code'];
-  }
+	public function getCustomerCode()
+	{
+		return $this->data['customer']['code'];
+	}
 
-  public function getOrderId()
-  {
-    return $this->data['id'];
-  }
+	public function getCustomerReferralCode()
+	{
+		return $this->data['customer']['referral_code'];
+	}
 
-  public function getCustomerEmail()
-  {
-    return $this->data['customer']['email'];
-  }
+	public function getOrderId()
+	{
+		return $this->data['id'];
+	}
 
-  public function getCustomer()
-  {
-      if (!$this->customer) {
-          $cls = $this->getCustomerClass();
-          $this->customer = new $cls($this->data['customer']);
-      }
+	public function getCustomerEmail()
+	{
+		return $this->data['customer']['email'];
+	}
 
-    return $this->customer;
-  }
+	public function getCustomer()
+	{
+		if (!$this->customer) {
+			$cls = $this->getCustomerClass();
+			$this->customer = new $cls($this->data['customer']);
+		}
 
-  public function getCurrency()
-  {
-      return $this->data['currency'];
-  }
+		return $this->customer;
+	}
 
-  public function getAmount()
-  {
-      return $this->data['amount'];
-  }
+	public function getCurrency()
+	{
+		return $this->data['currency'];
+	}
 
-  public function getAmountPaid()
-  {
-      return $this->data['amount_paid'];
-  }
+	public function getAmount()
+	{
+		return $this->data['amount'];
+	}
 
-  public function getItems()
-  {
-    if (!$this->items) {
-        $this->items = array();
-        foreach ($this->data['items'] as $item_data) {
-            $cls = $this->getItemClass($item_data['category']);
-            // When returning an order, Dzangocart only supplies the customer data at order level, not item level.
-            $item_data['customer'] = $this->customer;
-            $item = new $cls($item_data);
-            $this->items[] = $item;
-        }
-    }
+	public function getAmountPaid()
+	{
+		return $this->data['amount_paid'];
+	}
 
-    return $this->items;
-  }
+	public function getItems()
+	{
+		if (!$this->items) {
+			$this->items = array();
+			foreach ($this->data['items'] as $item_data) {
+				$cls = $this->getItemClass($item_data['category']);
+				// When returning an order, Dzangocart only supplies the customer data at order level, not item level.
+				$item_data['customer'] = $this->customer;
+				$item = new $cls($item_data);
+				$this->items[] = $item;
+			}
+		}
 
-  public function getActionsPartial()
-  {
-    return 'dzangocart/order_actions';
-  }
+		return $this->items;
+	}
 
-  public function getDetailsPartial()
-  {
-    return 'dzangocart/order_details';
-  }
+	public function getActionsPartial()
+	{
+		return 'dzangocart/order_actions';
+	}
 
-  public function getBatchActionPartial()
-  {
-    return 'dzangocart/order_batch_action';
-  }
+	public function getDetailsPartial()
+	{
+		return 'dzangocart/order_details';
+	}
 
-  public function process($confirm = false)
-  {
-    if ($confirm) { $this->confirm(); }
-    $this->generateInvoice();
-    $this->doProcessOrder();
-    $this->processItems();
-  }
+	public function getBatchActionPartial()
+	{
+		return 'dzangocart/order_batch_action';
+	}
 
-  protected function doProcessOrder() {}
+	public function process($confirm = false)
+	{
+		if ($confirm) { $this->confirm(); }
+		$this->generateInvoice();
+		$this->doProcessOrder();
+		$this->processItems();
+	}
 
-  protected function confirm() {}
+	protected function doProcessOrder()
+	{
+	}
 
-  protected function generateInvoice() {}
+	protected function confirm()
+	{
+	}
 
-  protected function processItems()
-  {
-    $items = $this->getItems();
-    foreach ($items as $item) {
-      $item->process();
-    }
-  }
+	protected function generateInvoice()
+	{
+	}
 
-  protected function getCustomerClass()
-  {
-      return 'DzangocartCustomer';
-  }
+	protected function processItems()
+	{
+		$items = $this->getItems();
+		foreach ($items as $item) {
+			$item->process();
+		}
+	}
 
-  protected function getItemClass($category)
-  {
-      return 'DzangocartPurchase';
-  }
+	protected function getCustomerClass()
+	{
+		return 'DzangocartCustomer';
+	}
+
+	protected function getItemClass($category)
+	{
+		return 'DzangocartPurchase';
+	}
 }

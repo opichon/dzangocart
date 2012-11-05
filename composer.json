@@ -1,0 +1,12 @@
+{
+	"name": "opichon/dzangocart",
+	"description": "Helper library for dzangocart",
+	"type": "library",
+	"keywords": ["dzangocart"],
+	"license": "MIT",
+	"autoload": {
+		"psr-0": {
+			"Dzangocart": "lib/"
+		}
+	}
+}
