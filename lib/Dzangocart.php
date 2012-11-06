@@ -366,7 +366,7 @@ class Dzangocart
 		set_error_handler('Dzangocart::handleError');
 		try {
 			require_once(dirname(__FILE__).'/pcrypt_0.0.3-stable/pcrypt.php');
-			$cipher = new pcrypt($key);
+			$cipher = new \pcrypt($key);
 			$result = $cipher->cipher($data);
 		}
 		catch (ErrorException $e) {
@@ -382,7 +382,7 @@ class Dzangocart
 		set_error_handler('Dzangocart::handleError');
 		try {
 			require_once(dirname(__FILE__).'/pcrypt_0.0.3-stable/pcrypt.php');
-			$cipher = new pcrypt($key);
+			$cipher = new \pcrypt($key);
 			$result = $cipher->decipher($data);
 		}
 		catch (ErrorException $e) {
@@ -391,56 +391,6 @@ class Dzangocart
 		restore_error_handler();
 
 		return $result;
-	}
-
-	/*
-	 * FIXME [OP 2011-08-26] Ths method cannot go in here.
-	 */
-	 public static function getUserByCustomerCode($code)
-	 {
-		 return PorotUserPeer::retrieveByUsername($code);
-	}
-
-	public static function createUserFromDzangocart(array $data)
-	{
-		$user = new sfGuardUser();
-		$user->setUsername($data['email']);
-		Dzangocart::updateUser($user, $data);
-
-		$password = Password::generate(8);
-		$user->setPassword($password);
-		$user->save();
-
-		$msg = new AutoregisterDzangocartMessage($user, $password);
-		try {
-			$msg->send(); } catch (Exception $e) { $this->error(800, $e->getMessage());
-		}
-
-		return $user;
-	}
-
-	public static function updateUser($user, array $data)
-	{
-		$profile = $user->getProfile();
-		$profile->fromArray($data, BasePeer::TYPE_FIELDNAME);
-
-		if (array_key_exists('billing_address', $data)) {
-			$address_data = $data['billing_address'];
-			$address = $profile->getAddress();
-
-			if (array_key_exists('line1', $address_data)) { $address->setLine1($address_data['line1']); }
-			if (array_key_exists('line2', $address_data)) { $address->setLine2($address_data['line2']); }
-			if (array_key_exists('city', $address_data)) { $address->setCity($address_data['city']); }
-			if (array_key_exists('zip', $address_data)) { $address->setZip($address_data['zip']); }
-			if (array_key_exists('country', $address_data)) { $address->setCountryId($address_data['country']); }
-		}
-
-		if (array_key_exists('affiliate', $data)) {
-			$affiliate = AffiliatePeer::getByDzangocartId($data['affiliate']);
-			$profile->setAffiliate($affiliate);
-		}
-
-		$profile->save();
 	}
 
 	public static function handleError($errno, $errstr, $errfile, $errline)
